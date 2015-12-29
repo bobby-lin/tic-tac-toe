@@ -7,17 +7,19 @@
 .board {
     background-color: #34495E;
     color: white;
-    font-size: 150px;
+    font-size: 130px;
     alignment: center;
     table-layout: fixed;
-    width: 625px;
-    height: 625px;
+    width: 630px;
+    height: 630px;
     display: inline-table;
     border: 10px solid #C0392B;
 }
 
 td, th {
     border: 7px solid #C0392B;
+    width: 210px;
+    height: 210px;
 }
 
 #page-mask {
