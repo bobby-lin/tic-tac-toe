@@ -6,8 +6,17 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="styles/common.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body onload="startGame()">
+  <div id="menu">
+    <div id="page-mask"></div>
+    <div id="select-menu">
+      <p class="menu-header text-center">Choose</p>
+      <button class="circle-choice" onclick='start("circle")'>O</button>
+      <button class="cross-choice" onclick='start("cross")'>X</button>
+    </div>
+  </div>
   <h1 class="text-center header">Tic Tac Toe</h1>
   <div class="container" style="text-align:center;">
     <table class="board">
