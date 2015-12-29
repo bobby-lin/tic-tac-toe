@@ -19,3 +19,54 @@
 td, th {
     border: 7px solid #C0392B;
 }
+
+#page-mask {
+    background: rgba(0, 0, 0, 0.95);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#select-menu {
+    position: fixed;
+    margin: 0 auto;
+    top: 175px;
+    left:0;
+    right:0;
+    background-color: white;
+    border: solid 2px gray;
+    width: 500px;
+    height:250px;
+}
+
+.menu-header {
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 10px;
+}
+
+.cross-choice, .circle-choice {
+    font-size: 100px;
+}
+
+.circle-choice {
+    color: navy;
+    margin-left: 65px;
+    margin-right: 5px;
+    width: 175px;
+    height: 175px;
+}
+
+.cross-choice {
+    color: green;
+    margin-left: 5px;
+    margin-right: 40px;
+    width: 175px;
+    height: 175px;
+}
+
+.hidden { 
+    display: none; 
+}
