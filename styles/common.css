@@ -1,0 +1,21 @@
+.header {
+    font-size: 65px;
+    font-weight: bolder;
+    margin: 32px;
+}
+
+.board {
+    background-color: #34495E;
+    color: white;
+    font-size: 150px;
+    alignment: center;
+    table-layout: fixed;
+    width: 625px;
+    height: 625px;
+    display: inline-table;
+    border: 10px solid #C0392B;
+}
+
+td, th {
+    border: 7px solid #C0392B;
+}
