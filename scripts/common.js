@@ -7,7 +7,6 @@ const WINNING_PATTERN = [7, 56, 448, 292, 146, 73, 273, 84]; // Binary converts 
 var player;
 var computer;
 var possibleMoves = [1,2,3,4,5,6,7,8,9];
-var boardPosition = [-1,-1,-1,-1,-1,-1,-1,-1,-1];
 
 function selectSymbol() {
     $('#menu').addClass('.hidden');
@@ -44,7 +43,6 @@ function restart() {
     console.log("Game is over");
     $("td").html("");
     possibleMoves = [1,2,3,4,5,6,7,8,9];
-    boardPosition = [-1,-1,-1,-1,-1,-1,-1,-1,-1];
     playGame();
 }
 
@@ -55,10 +53,8 @@ function computerNextMove() {
     var hash = "#" + "cell-" + cellNum;
     possibleMoves.splice(randomIndex, 1);
     $(hash).html(computer);
-    checkWin(computer, cellNum);
+    checkWin();
     checkEndGame();
-    boardPosition[cellNum-1] = computer;
-    console.log(boardPosition);
 }
 
 $('td').click(function() {
@@ -68,9 +64,7 @@ $('td').click(function() {
         $(hash).html(player);
         removePositionFromBoard(cellNum);
         computerNextMove();
-        boardPosition[cellNum-1] = player;
-        checkWin(player, cellNum);
-        console.log(boardPosition);
+        checkWin();
     }
     else {
         console.log("Invalid move");
