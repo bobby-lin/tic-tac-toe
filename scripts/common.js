@@ -55,13 +55,19 @@ function restart() {
 
 function computerNextMove() {
     var length = possibleMoves.length;
-    var randomIndex = Math.floor(Math.random() * (length));
-    var cellNum = possibleMoves[randomIndex];
-    var hash = "#" + "cell-" + cellNum;
-    possibleMoves.splice(randomIndex, 1);
+    var cellNum;
+    var hash = "#cell-";
+    if((cellNum = checkWinningMove(computerPattern)) != -1) {
+        possibleMoves.splice(cellNum, 1);
+    } 
+    else {
+        var randomIndex = Math.floor(Math.random() * (length));
+        cellNum = possibleMoves[randomIndex];
+        possibleMoves.splice(randomIndex, 1);
+    }
+    hash += cellNum;
     $(hash).html(computer);
     computerPattern |= Math.pow(2, cellNum);
-    console.log(computerPattern);
     if(checkWin(computerPattern)) {
         console.log("Computer wins");
         setTimeout(function () {
@@ -69,9 +75,21 @@ function computerNextMove() {
         }, 2000);
     }
     else if(checkEndGame()) {
-        console.log("Game is over");
-        restart();
+        console.log("Draw");
+        setTimeout(function () {
+            restart();
+        }, 2000);
     }
+}
+
+function checkWinningMove(pattern) {
+    for(var i = 0; i < possibleMoves.length; i++) {
+        var currentPattern = pattern|= Math.pow(2, possibleMoves[i]);
+        if(checkWin(currentPattern)) {
+            return possibleMoves[i];
+        }
+    }
+    return -1;
 }
 
 $('td').click(function() {
@@ -81,7 +99,6 @@ $('td').click(function() {
         $(hash).html(player);
         removePositionFromBoard(cellNum);
         playerPattern |= Math.pow(2, cellNum);
-        console.log(playerPattern);
         if(checkWin(playerPattern)) {
             console.log("Player wins");
             setTimeout(function () {
@@ -89,8 +106,10 @@ $('td').click(function() {
             }, 2000);
         }
         else if(checkEndGame()) {
-            console.log("Game is over");
-            restart();
+            console.log("Draw");
+            setTimeout(function () {
+                restart();
+            }, 2000);
         }
         else {
             computerNextMove();
