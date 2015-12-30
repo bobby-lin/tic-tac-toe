@@ -42,15 +42,12 @@ function playGame() {
 }
 
 function restart() {
-    $('#page-mask').show();
-    setTimeout(function () {
-        $('#page-mask').hide();
-        $("td").html("");
-        possibleMoves = [0,1,2,3,4,5,6,7,8];
-        playerPattern = 0;
-        computerPattern = 0;
-        playGame();
-    }, 2000);
+    $('#page-mask').hide();
+    $("td").html("");
+    possibleMoves = [0,1,2,3,4,5,6,7,8];
+    playerPattern = 0;
+    computerPattern = 0;
+    playGame();
 }
 
 function computerNextMove() {
@@ -58,34 +55,47 @@ function computerNextMove() {
     var cellNum;
     var hash = "#cell-";
     if((cellNum = checkWinningMove(computerPattern)) != -1) {
-        possibleMoves.splice(cellNum, 1);
+        removePositionFromBoard(cellNum);
+        console.log(possibleMoves);
     } 
+    else if((cellNum = checkWinningMove(playerPattern)) != -1) {
+        removePositionFromBoard(cellNum);
+        console.log(possibleMoves);
+    }
     else {
         var randomIndex = Math.floor(Math.random() * (length));
+        console.log(randomIndex);
         cellNum = possibleMoves[randomIndex];
         possibleMoves.splice(randomIndex, 1);
+        console.log(possibleMoves);
     }
     hash += cellNum;
     $(hash).html(computer);
     computerPattern |= Math.pow(2, cellNum);
     if(checkWin(computerPattern)) {
-        console.log("Computer wins");
+        $('#page-mask').show();
+        $('#result').html("Computer wins");
+        $('#result').show();
         setTimeout(function () {
             restart();
-        }, 2000);
+            $('#result').hide();
+        }, 3000);
     }
     else if(checkEndGame()) {
-        console.log("Draw");
+        $('#page-mask').show();
+        $('#result').html("Draw");
+        $('#result').show();
         setTimeout(function () {
             restart();
-        }, 2000);
+            $('#result').hide();
+        }, 3000);
     }
 }
 
 function checkWinningMove(pattern) {
     for(var i = 0; i < possibleMoves.length; i++) {
-        var currentPattern = pattern|= Math.pow(2, possibleMoves[i]);
-        if(checkWin(currentPattern)) {
+        var currentPattern = pattern;
+        if(checkWin(currentPattern |= Math.pow(2, possibleMoves[i]))) {
             return possibleMoves[i];
         }
     }
