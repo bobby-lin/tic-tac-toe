@@ -6,7 +6,9 @@
 const WINNING_PATTERN = [7, 56, 448, 292, 146, 73, 273, 84]; // Binary converts to Decimal
 var player;
 var computer;
-var possibleMoves = [1,2,3,4,5,6,7,8,9];
+var possibleMoves = [0,1,2,3,4,5,6,7,8];
+var playerPattern = 0;
+var computerPattern = 0;
 
 function selectSymbol() {
     $('#menu').addClass('.hidden');
@@ -40,10 +42,15 @@ function playGame() {
 }
 
 function restart() {
-    console.log("Game is over");
-    $("td").html("");
-    possibleMoves = [1,2,3,4,5,6,7,8,9];
-    playGame();
+    $('#page-mask').show();
+    setTimeout(function () {
+        $('#page-mask').hide();
+        $("td").html("");
+        possibleMoves = [0,1,2,3,4,5,6,7,8];
+        playerPattern = 0;
+        computerPattern = 0;
+        playGame();
+    }, 2000);
 }
 
 function computerNextMove() {
@@ -53,8 +60,18 @@ function computerNextMove() {
     var hash = "#" + "cell-" + cellNum;
     possibleMoves.splice(randomIndex, 1);
     $(hash).html(computer);
-    checkWin();
-    checkEndGame();
+    computerPattern |= Math.pow(2, cellNum);
+    console.log(computerPattern);
+    if(checkWin(computerPattern)) {
+        console.log("Computer wins");
+        setTimeout(function () {
+            restart();
+        }, 2000);
+    }
+    else if(checkEndGame()) {
+        console.log("Game is over");
+        restart();
+    }
 }
 
 $('td').click(function() {
@@ -63,13 +80,25 @@ $('td').click(function() {
     if($(hash).html() === "") {
         $(hash).html(player);
         removePositionFromBoard(cellNum);
-        computerNextMove();
-        checkWin();
+        playerPattern |= Math.pow(2, cellNum);
+        console.log(playerPattern);
+        if(checkWin(playerPattern)) {
+            console.log("Player wins");
+            setTimeout(function () {
+                restart();
+            }, 2000);
+        }
+        else if(checkEndGame()) {
+            console.log("Game is over");
+            restart();
+        }
+        else {
+            computerNextMove();
+        }
     }
     else {
         console.log("Invalid move");
     }
-    checkEndGame();
 });
 
 function removePositionFromBoard(p) {
@@ -84,17 +113,14 @@ function removePositionFromBoard(p) {
 
 function checkEndGame() {
     var length = possibleMoves.length;
-    if(length === 0) {
-        setTimeout(function () {
-            $('#page-mask').show();
-            setTimeout(function () {
-                $('#page-mask').hide();
-                restart();
-            }, 2000);
-        },1000);
-    }
+    return length === 0;
 }
 
-function checkWin(pattern, cellNum) {
-    
+function checkWin(pattern) {
+    for(var i = 0; i< WINNING_PATTERN.length; i++) {
+        if( (pattern & WINNING_PATTERN[i]) === WINNING_PATTERN[i]) {
+            return true;
+        }
+    }
+    return false;
 }
